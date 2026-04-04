@@ -1,0 +1,30 @@
+# Build
+bin/
+obj/
+/packages/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Rider (JetBrains)
+.idea/
+
+# VS Code
+.vscode/
+
+# Données sensibles
+appsettings.Development.json
+appsettings.Production.json
+
+# Logs (NLog)
+*.log
+logs/
+
+# Migrations EF Core
+# Migrations/
+
+# OS
+.DS_Store
+Thumbs.db
