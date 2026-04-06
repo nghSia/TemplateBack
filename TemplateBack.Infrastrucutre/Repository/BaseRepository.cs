@@ -20,30 +20,36 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
     /* Resolves the correct DbSet dynamically from the entity type */
     protected DbSet<T> DbSet => m_Context.Set<T>();
 
+    /// <inheritdoc/>
     public async Task<IEnumerable<T>> GetAllAsync()
         => await DbSet.AsNoTracking().ToListAsync();
 
-    public async Task<T?> GetByIdAsync(int id)
-        => await DbSet.FindAsync(id);
+    /// <inheritdoc/>
+    public async Task<T?> GetByIdAsync(int p_Id)
+        => await DbSet.FindAsync(p_Id);
 
-    public async Task<T> CreateAsync(T entity)
+    /// <inheritdoc/>
+    public async Task<T> CreateAsync(T p_Entity)
     {
-        await DbSet.AddAsync(entity);
-        return entity;
+        await DbSet.AddAsync(p_Entity);
+        return p_Entity;
     }
 
-    public async Task<T> UpdateAsync(T entity)
+    /// <inheritdoc/>
+    public async Task<T> UpdateAsync(T p_Entity)
     {
-        DbSet.Update(entity);
-        return entity;
+        DbSet.Update(p_Entity);
+        return p_Entity;
     }
 
-    public async Task DeleteAsync(int id)
+    /// <inheritdoc/>
+    public async Task DeleteAsync(int p_Id)
     {
-        var entity = await DbSet.FindAsync(id);
-        if (entity is not null) DbSet.Remove(entity);
+        T? v_Entity = await DbSet.FindAsync(p_Id);
+        if (v_Entity is not null) DbSet.Remove(v_Entity);
     }
 
-    public async Task<bool> ExistsAsync(int id)
-        => await DbSet.FindAsync(id) is not null;
+    /// <inheritdoc/>
+    public async Task<bool> ExistsAsync(int p_Id)
+        => await DbSet.FindAsync(p_Id) is not null;
 }

@@ -1,18 +1,19 @@
 using AutoMapper;
 using TemplateBack.TemplateBack.Core.DTOs;
+using TemplateBack.TemplateBack.Core.Models;
 using TemplateBack.TemplateBack.Infrastrucutre.Entities;
 
 namespace TemplateBack.TemplateBack.Core.Mappers;
 
-/* AutoMapper profile — one profile per entity */
+/* AutoMapper profile */
 public class ExampleProfile : Profile
 {
     public ExampleProfile()
     {
-        // Entité → DTO sortant (lecture)
-        CreateMap<Example, ExampleResponseDTO>();
+        CreateMap<Example, ExampleModel>();
+        CreateMap<ExampleModel, Example>();
 
-        // DTO entrant → Entité (création)
-        CreateMap<ExampleRequestDTO, Example>();
+        CreateMap<ExampleModel, ExampleResponseDTO>();
+        CreateMap<ExampleRequestDTO, ExampleModel>();
     }
 }

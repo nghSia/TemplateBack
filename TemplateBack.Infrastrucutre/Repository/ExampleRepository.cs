@@ -11,26 +11,26 @@ namespace TemplateBack.TemplateBack.Infrastrucutre.Repository;
 /* Example repository — EF Core for CRUD, Dapper for complex reads */
 public class ExampleRepository : BaseRepository<Example>, IExampleRepository
 {
-    public ExampleRepository(BaseContext context, IDbConnection db)
-        : base(context, db) { }
+    public ExampleRepository(BaseContext p_Context, IDbConnection p_Db)
+        : base(p_Context, p_Db) { }
 
-    /* EF Core — filtered query */
-    public async Task<IEnumerable<Example>> GetByNameAsync(string name)
+    /// <inheritdoc/>
+    public async Task<IEnumerable<Example>> GetByNameAsync(string p_Name)
         => await DbSet.AsNoTracking()
-            .Where(e => e.Name.Contains(name))
+            .Where(e => e.Name.Contains(p_Name))
             .ToListAsync();
-    
-    /* Dapper — complex query with aggregates */
-    public async Task<ExampleSummaryResponse> GetSummaryAsync(int id)
+
+    /// <inheritdoc/>
+    public async Task<ExampleSummaryResponse> GetSummaryAsync(int p_Id)
     {
-        var sql = @"SELECT e.Id, e.Name,
+        string v_Sql = @"SELECT e.Id, e.Name,
                            COUNT(r.Id)      AS TotalItems,
                            AVG(r.Score)     AS AverageScore
                     FROM Examples e
                     LEFT JOIN ExampleRelated r ON r.ExampleId = e.Id
-                    WHERE e.Id = @id
+                    WHERE e.Id = @p_Id
                     GROUP BY e.Id, e.Name";
 
-        return await m_DbConnection.QueryFirstOrDefaultAsync<ExampleSummaryResponse>(sql, new { id });
+        return await m_DbConnection.QueryFirstOrDefaultAsync<ExampleSummaryResponse>(v_Sql, new { p_Id });
     }
 }

@@ -3,11 +3,10 @@ using TemplateBack.TemplateBack.Infrastrucutre.Entities;
 
 namespace TemplateBack.TemplateBack.Infrastrucutre.Context;
 
-/* Base DbContext — applies all IEntityTypeConfiguration files automatically */
 /* Base DbContext — applies all entity configurations */
-public abstract class BaseContext : DbContext
+public class BaseContext : DbContext
 {
-    protected BaseContext(DbContextOptions options) : base(options) { }
+    public BaseContext(DbContextOptions<BaseContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
